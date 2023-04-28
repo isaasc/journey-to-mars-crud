@@ -36,4 +36,10 @@ public class TravelController {
     public ResponseEntity<Travel> update(@RequestBody Travel travel) {
         return ResponseEntity.status(HttpStatus.CREATED).body(travelService.update(travel));
     }
+
+    @DeleteMapping
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        travelService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
