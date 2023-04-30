@@ -1,7 +1,8 @@
-package com.microservice.journeytomars.service;
+package com.microservice.journeytomars.service.serviceImpl;
 
 import com.microservice.journeytomars.model.Travel;
 import com.microservice.journeytomars.repository.TravelRepository;
+import com.microservice.journeytomars.service.TravelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -13,7 +13,7 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand">Tourism on Mars Company</a>
+            <a class="navbar-brand white">Tourism on Mars Company</a>
         </div>
     </nav>
 </header>
@@ -21,32 +21,36 @@
 <main>
     <div class="container mt-4">
         <h4 class="d-flex justify-content-between">Mars travel details
-            <a href="travel-create.html" class="btn btn-primary float-end">Add Travel</a>
+            <a href="/spacecraft" class="btn btn-primary float-end">Add Spacecraft</a>
+            <a href="/commander" class="btn btn-primary float-end">Add Commander</a>
+            <a href="/nav/createTravel" class="btn btn-primary float-end">Add Travel</a>
         </h4>
         <div class="table-responsive">
             <table class="table mt-3 table-hover">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Telefone</th>
-                    <th scope="col">Curso</th>
-                    <th scope="col">Ação</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Data de decolagem</th>
+                    <th scope="col">Dias em Marte</th>
+                    <th scope="col">Modelo da nave</th>
+                    <th scope="col">Assentos disponíveis na nave</th>
+                    <th scope="col">Primeiro comandante</th>
+                    <th scope="col">Matrícula interespacial</th>
+                    <th scope="col">Ações</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td scope="row">1</td>
-                    <td>name</td>
-                    <td>email</td>
-                    <td>phone</td>
-                    <td>course</td>
+                <tr th:each="travel : ${travels}">
+                    <td th:text="${travel.getId()}"></td>
+                    <td th:text="${travel.getTakeoffDate()}"></td>
+                    <td th:text="${travel.getDaysOnMars()}"></td>
+                    <td th:text="${travel.getSpacecraft().getShipModelName()}"></td>
+                    <td th:text="${travel.getSpacecraft().getSeatsAvailable()}"></td>
+                    <td th:text="${travel.getFirstCommander().getName()}"></td>
+                    <td th:text="${travel.getFirstCommander().getInterspaceLicensePlate()}"></td>
                     <td>
-                        <a href="travel-edit.html" class="btn btn-warning btn-sm">Edit</a>
-                        <form action=" code.php" method="POST" class="d-inline">
-                            <button type="submit" name="delete_student" value="<?=$student['id'];?>" class="btn btn-danger btn-sm">Del</button>
-                        </form>
+                        <a href="/nav/edit" class="btn btn-warning btn-sm">Edit</a>
+                        <a th:href="@{/travel/delete/{travelId} (travelId = ${travel.id}) }" class="btn btn-danger btn-sm">Del</a>
                     </td>
                 </tr>
                 </tbody>
@@ -55,5 +59,4 @@
     </div>
 </main>
 </body>
-
 </html>

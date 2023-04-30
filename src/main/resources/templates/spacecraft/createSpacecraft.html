@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <title>Create Mars Travel</title>
+</head>
+
+<body>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="d-flex justify-content-between">Create Mars Travel
+            <a href="/travel" class="btn btn-danger float-end">Back</a>
+          </h4>
+        </div>
+        <div class="card-body">
+          <form action="/spacecraft/create" method="post">
+            <div class="mb-3">
+              <label>Nome do modelo:</label>
+              <input type="text" class="form-control" name="shipModelName" id="shipModelName">
+            </div>
+            <div class="mb-3">
+              <label>Quantidade de assentos disponíveis:</label>
+              <input type="number" class="form-control" name="seatsAvailable" id="seatsAvailable">
+            </div>
+            <div class="mb-3">
+              <input type="submit" class="btn btn-primary" value="Save"/>
+            </div>
+          </form>
+        </div>
+        <div class="table-responsive">
+          <table class="table mt-3 table-hover">
+            <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nome do modelo</th>
+              <th scope="col">Quantidade de assentos disponíveis</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="spacecraft : ${spacecrafts}">
+              <td th:text="${spacecraft.getId()}"></td>
+              <td th:text="${spacecraft.getSeatsAvailable()}"></td>
+              <td th:text="${spacecraft.getShipModelName()}"></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>
