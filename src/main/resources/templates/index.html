@@ -14,46 +14,60 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand white">Tourism on Mars Company</a>
+            <a class="navbar-brand" style="color: white;">Tourism on Mars Company</a>
         </div>
     </nav>
 </header>
 
 <main>
-    <div class="mt-4">
+    <div class="container-fluid mt-4">
         <h4 class="d-flex justify-content-between">Mars travel details
-            <a href="/spacecraft" class="btn btn-primary float-end">Add Spacecraft</a>
-            <a href="/commander" class="btn btn-primary float-end">Add Commander</a>
             <a th:href="@{/showCreateTravelForm}" class="btn btn-primary float-end">Add Travel</a>
         </h4>
         <div class="table-responsive">
             <table class="table mt-3 table-hover">
                 <thead class="thead-dark">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Data de decolagem</th>
-                    <th scope="col">Dias em Marte</th>
-                    <th scope="col">Modelo da nave</th>
-                    <th scope="col">Assentos disponíveis na nave</th>
-                    <th scope="col">Nome Primeiro comandante</th>
-                    <th scope="col">Matrícula interespacial Primeiro comandante</th>
-                    <th scope="col">Nome Segundo comandante</th>
-                    <th scope="col">Matrícula interespacial Segundo comandante</th>
-                    <th scope="col">Ações</th>
+                <tr class="text-center">
+                    <th rowspan="3" class="align-middle">#</th>
+                    <th colspan="2">Nave</th>
+                    <th colspan="4">Comandante</th>
+                    <th colspan="3">Dias</th>
+                    <th colspan="2">Data</th>
+                    <th rowspan="3" class="align-middle">Ações</th>
+                </tr>
+                <tr class="text-center">
+                    <th rowspan="2" class="align-middle">Modelo</th>
+                    <th rowspan="2" class="align-middle">Assentos disponíveis</th>
+                    <th colspan="2">Primeiro</th>
+                    <th colspan="2">Segundo</th>
+                    <th rowspan="2" class="align-middle">Ida até Marte</th>
+                    <th rowspan="2" class="align-middle">Em Marte</th>
+                    <th rowspan="2" class="align-middle">Volta para Terra</th>
+                    <th rowspan="2" class="align-middle">Ida</th>
+                    <th rowspan="2" class="align-middle">Volta</th>
+                </tr>
+                <tr class="text-center">
+                    <th>Nome</th>
+                    <th>Matrícula interespacial</th>
+                    <th>Nome</th>
+                    <th>Matrícula interespacial</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="travel : ${listTravels}">
-                    <td th:text="${travel.getId()}"></td>
-                    <td th:text="${travel.getTakeoffDate()}"></td>
-                    <td th:text="${travel.getDaysOnMars()}"></td>
-                    <td th:text="${travel.getShipModelName()}"></td>
-                    <td th:text="${travel.getSeatsAvailable()}"></td>
-                    <td th:text="${travel.getFirstCommanderName()}"></td>
-                    <td th:text="${travel.getFirstCommanderInterspaceLicensePlate()}"></td>
-                    <td th:text="${travel.getSecondCommanderName()}"></td>
-                    <td th:text="${travel.getSecondCommanderInterspaceLicensePlate()}"></td>
-                    <td>
+                <tr th:each="travel : ${listTravels}" class="text-center">
+                    <td class="align-middle" th:text="${travel.getId()}"></td>
+                    <td class="align-middle" th:text="${travel.getShipModelName()}"></td>
+                    <td class="align-middle" th:text="${travel.getSeatsAvailable()}"></td>
+                    <td class="align-middle" th:text="${travel.getFirstCommanderName()}"></td>
+                    <td class="align-middle" th:text="${travel.getFirstCommanderInterspaceLicensePlate()}"></td>
+                    <td class="align-middle" th:text="${travel.getSecondCommanderName()}"></td>
+                    <td class="align-middle" th:text="${travel.getSecondCommanderInterspaceLicensePlate()}"></td>
+                    <td class="align-middle" th:text="${travel.getTravelDaysToMars()}"></td>
+                    <td class="align-middle" th:text="${travel.getDaysOnMars()}"></td>
+                    <td class="align-middle" th:text="${travel.getTravelDaysToEarth()}"></td>
+                    <td th:text="${travel.getTakeoffDate()}" class="align-middle takeoffDate"></td>
+                    <td th:text="${travel.getDateReturnEarth()}" class="align-middle dateReturnEarth"></td>
+                    <td class="align-middle">
                         <a th:href="@{/showUpdateTravelForm/{id}(id=${travel.id})}"
                            class="btn btn-warning btn-sm">Edit</a>
                         <a th:href="@{/deleteTravel/{id}(id=${travel.id})}"
@@ -66,68 +80,19 @@
     </div>
 </main>
 </body>
+<script>
+  formatData('takeoffDate');
+  formatData('dateReturnEarth');
+
+  function formatData(className) {
+    for (const element of document.getElementsByClassName(className)) {
+      let dia = element.innerHTML.slice(8, 10);
+      let mes = element.innerHTML.slice(5, 7);
+      let ano = element.innerHTML.slice(0, 4);
+      let dataFormatada = dia + "/" + mes + "/" + ano;
+      element.innerHTML = dataFormatada;
+    }
+  }
+
+</script>
 </html>
-
-
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
-
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">-->
-<!--    <title>Tourism on Mars Company - Mars travel details</title>-->
-<!--</head>-->
-
-<!--<body>-->
-<!--<header>-->
-<!--    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">-->
-<!--        <div class="container-fluid">-->
-<!--            <a class="navbar-brand white">Tourism on Mars Company</a>-->
-<!--        </div>-->
-<!--    </nav>-->
-<!--</header>-->
-
-<!--<main>-->
-<!--    <div class="container mt-4">-->
-<!--        <h4 class="d-flex justify-content-between">Mars travel details-->
-<!--            <a href="/spacecraft" class="btn btn-primary float-end">Add Spacecraft</a>-->
-<!--            <a href="/commander" class="btn btn-primary float-end">Add Commander</a>-->
-<!--            <a href="/nav/createTravel" class="btn btn-primary float-end">Add Travel</a>-->
-<!--        </h4>-->
-<!--        <div class="table-responsive">-->
-<!--            <table class="table mt-3 table-hover">-->
-<!--                <thead class="thead-dark">-->
-<!--                <tr>-->
-<!--                    <th scope="col">#</th>-->
-<!--                    <th scope="col">Data de decolagem</th>-->
-<!--                    <th scope="col">Dias em Marte</th>-->
-<!--                    <th scope="col">Modelo da nave</th>-->
-<!--                    <th scope="col">Assentos disponíveis na nave</th>-->
-<!--                    <th scope="col">Primeiro comandante</th>-->
-<!--                    <th scope="col">Matrícula interespacial</th>-->
-<!--                    <th scope="col">Ações</th>-->
-<!--                </tr>-->
-<!--                </thead>-->
-<!--                <tbody>-->
-<!--                <tr th:each="travel : ${listTravels}">-->
-<!--                    <td th:text="${travel.getId()}"></td>-->
-<!--                    <td th:text="${travel.getTakeoffDate()}"></td>-->
-<!--                    <td th:text="${travel.getDaysOnMars()}"></td>-->
-<!--                    <td th:text="${travel.getSpacecraft().getShipModelName()}"></td>-->
-<!--                    <td th:text="${travel.getSpacecraft().getSeatsAvailable()}"></td>-->
-<!--                    <td th:text="${travel.getFirstCommander().getName()}"></td>-->
-<!--                    <td th:text="${travel.getFirstCommander().getInterspaceLicensePlate()}"></td>-->
-<!--                    <td>-->
-<!--                        <a href="/nav/edit" class="btn btn-warning btn-sm">Edit</a>-->
-<!--                        <a th:href="@{/travel/delete/{travelId} (travelId = ${travel.id}) }" class="btn btn-danger btn-sm">Del</a>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                </tbody>-->
-<!--            </table>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</main>-->
-<!--</body>-->
-<!--</html>-->

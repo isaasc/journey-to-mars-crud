@@ -7,6 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.List;
 
 @Controller
@@ -31,8 +36,25 @@ public class TravelController {
 
     @PostMapping("/createTravel")
     public String createTravel(@ModelAttribute("travel") Travel travel) {
+        var dateReturnEarth = calculateDateReturnEarth(travel);
+        travel.setDateReturnEarth(dateReturnEarth);
         travelService.save(travel);
         return "redirect:/";
+    }
+
+    private Date calculateDateReturnEarth(Travel travel) {
+        Calendar calendar = Calendar.getInstance();
+        if (travel != null) {
+            var sumOfDays = travel.getDaysOnMars() + travel.getTravelDaysToMars() + travel.getTravelDaysToEarth();
+            calendar.setTime(travel.getTakeoffDate());
+            calendar.add(Calendar.DAY_OF_MONTH, sumOfDays);
+            Instant instant = Instant.parse(calendar.getTime().toInstant().toString());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String formattedDate = formatter.withZone(ZoneId.systemDefault()).format(instant);
+            Date date = Date.valueOf(formattedDate);
+            return date;
+        }
+        return null;
     }
 
     @GetMapping("/showUpdateTravelForm/{id}")
