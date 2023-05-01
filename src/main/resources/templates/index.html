@@ -86,13 +86,12 @@
 
   function formatData(className) {
     for (const element of document.getElementsByClassName(className)) {
-      let dia = element.innerHTML.slice(8, 10);
-      let mes = element.innerHTML.slice(5, 7);
-      let ano = element.innerHTML.slice(0, 4);
-      let dataFormatada = dia + "/" + mes + "/" + ano;
-      element.innerHTML = dataFormatada;
+      let day = element.innerHTML.slice(8, 10);
+      let month = element.innerHTML.slice(5, 7);
+      let year = element.innerHTML.slice(0, 4);
+      let formattedDate = day + "/" + month + "/" + year;
+      element.innerHTML = formattedDate;
     }
   }
-
 </script>
 </html>
