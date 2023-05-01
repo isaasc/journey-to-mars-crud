@@ -3,48 +3,48 @@ package com.microservice.journeytomars.controller;
 import com.microservice.journeytomars.model.Travel;
 import com.microservice.journeytomars.service.TravelService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.Optional;
 
-@RestController
-@RequestMapping("/travel")
+@Controller
 public class TravelController {
 
     @Autowired
     private TravelService travelService;
 
-    @GetMapping("")
-    public ModelAndView getAllTravels() {
-        ModelAndView model = new ModelAndView("/index");
+    @GetMapping("/")
+    public String viewHomePage(Model model) {
         List<Travel> listTravel = travelService.findAll();
-        model.addObject("travels", listTravel);
-        return model;
+        model.addAttribute("listTravels", listTravel);
+        return "index";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<Travel>> finById(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(travelService.findById(id));
+    @GetMapping("/showCreateTravelForm")
+    public String showCreateTravelForm(Model model) {
+        Travel travel = new Travel();
+        model.addAttribute("travel", travel);
+        return "/travel/create";
     }
 
-    @PostMapping
-    public ResponseEntity<Travel> create(@RequestBody Travel travel) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(travelService.save(travel));
+    @PostMapping("/createTravel")
+    public String createTravel(@ModelAttribute("travel") Travel travel) {
+        travelService.save(travel);
+        return "redirect:/";
     }
 
-    @PutMapping
-    public ResponseEntity<Travel> update(@RequestBody Travel travel) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(travelService.update(travel));
+    @GetMapping("/showUpdateTravelForm/{id}")
+    public String showUpdateTravelForm(@PathVariable(value = "id") Long id, Model model) {
+        Travel travel = travelService.findById(id);
+        model.addAttribute("travel", travel);
+        return "/travel/edit";
     }
 
-    @GetMapping("/delete/{id}")
-    public ModelAndView delete(@PathVariable("id") Long id) {
-        ModelAndView model = new ModelAndView("/index");
+    @GetMapping("/deleteTravel/{id}")
+    public String delete(@PathVariable(value = "id") Long id) {
         travelService.deleteById(id);
-        return model;
+        return "redirect:/";
     }
 }
